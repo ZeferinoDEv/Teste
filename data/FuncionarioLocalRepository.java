@@ -1,9 +1,9 @@
 package data;
 import java.util.ArrayList;
-
-
+import java.util.Collections;
 import data.protocols.IFuncionarioRepository;
 import domain.Entities.Funcionario;
+import helpers.ComparadorDeNome;
 
 public class FuncionarioLocalRepository implements IFuncionarioRepository  {
       private ArrayList<Funcionario> listaFuncionarios = new ArrayList<Funcionario>();
@@ -30,6 +30,12 @@ public class FuncionarioLocalRepository implements IFuncionarioRepository  {
                 }
              });
         }
+        return funcionariosPorMes;
+     }
+
+     public ArrayList<Funcionario> pegarTodosEmOrdemAlfabetica(){
+      ArrayList<Funcionario> funcionariosPorMes = listaFuncionarios;
+      Collections.sort(funcionariosPorMes, new ComparadorDeNome());
         return funcionariosPorMes;
      }
    

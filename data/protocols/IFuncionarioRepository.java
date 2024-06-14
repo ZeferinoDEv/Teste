@@ -8,6 +8,6 @@ public interface IFuncionarioRepository {
     public void removerFuncionario(String nome);
     public ArrayList<Funcionario>  pegarTodos();
     public ArrayList<Funcionario> buscarFuncionadoPorMes(int[] dias);
-     
+    public ArrayList<Funcionario> pegarTodosEmOrdemAlfabetica();
  }
  

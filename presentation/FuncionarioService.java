@@ -1,6 +1,6 @@
 package presentation;
 import java.math.BigDecimal;
-
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -41,33 +41,34 @@ public class FuncionarioService {
         repositorioDeFuncionarios.removerFuncionario(nome);
     }
     public void mostrarFuncionarios(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        
+        System.out.println("\n");
         repositorioDeFuncionarios.pegarTodos().forEach((funcionario) -> { 
-            System.out.println(funcionario.getNome()+ " | "+  funcionario.getDataDeNascimento().format(formatter)+ 
-            " | " + SalaryFormater.FormatarSalario(funcionario.getSalario()) + " | " +  funcionario.getFuncao()); 
+            imprimirFuncionários(funcionario); 
         });
     }
+
+    
     public void mostrarFuncionariosPorMesDeAniversario(int[] dias){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        System.out.println("\n\n\n");
+        System.out.println("\n");
         repositorioDeFuncionarios.buscarFuncionadoPorMes(dias).forEach((funcionario) -> { 
-            System.out.println(funcionario.getNome()+ " | "+  funcionario.getDataDeNascimento().format(formatter)+ 
-            " | " + SalaryFormater.FormatarSalario(funcionario.getSalario()) + " | " +  funcionario.getFuncao()); 
+            imprimirFuncionários(funcionario); 
         });
     }
     public void mostrarFuncionariosMaisvelho(){
-        System.out.println("\n\n\n");
+        System.out.println("\n");
        
-        Funcionario maisVelho = repositorioDeFuncionarios.pegarTodos().getFirst();
+        ArrayList<Funcionario> maisVelho =  new ArrayList<Funcionario>();
+        maisVelho.add(repositorioDeFuncionarios.pegarTodos().getFirst());
         
         repositorioDeFuncionarios.pegarTodos().forEach((funcionario) -> { 
-            if (funcionario.getDataDeNascimento().isBefore(maisVelho.getDataDeNascimento())) {
-                maisVelho = funcionario;
+            if (funcionario.getDataDeNascimento().isBefore(maisVelho.getFirst().getDataDeNascimento())) {
+               maisVelho.clear();
+               maisVelho.add(funcionario);
             }
         });
 
-        System.out.println(maisVelho.getNome()+ " | "+  maisVelho.getDataDeNascimento().compareTo(LocalDate.now())); 
+        System.out.println("Nome do funcionário mais velho: " + maisVelho.getFirst().getNome()+ 
+            " | idade: "+ LocalDate.now().compareTo( maisVelho.getFirst().getDataDeNascimento())); 
 
     }
 
@@ -98,19 +99,49 @@ public class FuncionarioService {
         
     }
     public void mostrarfuncionáriosPorFuncao(){
-    
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        
-        System.out.println("\n\n\n");
+      
+        System.out.println("\n");
         funcionariosMap.forEach((chave,lista) -> {
            lista.forEach((funcionario) -> { 
-                System.out.println(funcionario.getNome()+ " | "+  funcionario.getDataDeNascimento().format(formatter)+ 
-            " | " + SalaryFormater.FormatarSalario(funcionario.getSalario()) + " | " +  funcionario.getFuncao()); 
+                imprimirFuncionários(funcionario); 
             });
         });
         
     }
+    public void mostrarfuncionáriosPorOrdemAlfabetica(){
+       
+        System.out.println("\n");
+        repositorioDeFuncionarios.pegarTodosEmOrdemAlfabetica().forEach((funcionario) -> { 
+            imprimirFuncionários(funcionario); 
+        });
+    }
+    public void somarFolhaSalarial(){
+        
+        System.out.println("\n");
+        BigDecimal totalFolha = BigDecimal.ZERO;
+        for (Funcionario funcionario : repositorioDeFuncionarios.pegarTodos()) {
+            totalFolha = totalFolha.add(funcionario.getSalario());
+        }
+        
+        System.out.println("Valor Total de Salários: "+ SalaryFormater.FormatarSalario(totalFolha)); 
+    }
+
+    public void calcularSalariosMin(){
+        
+        System.out.println("\n");
+     
+        repositorioDeFuncionarios.pegarTodos().forEach((funcionario) -> { 
+            BigDecimal salariosMin = funcionario.getSalario().divide(new BigDecimal("1212.00"),2,RoundingMode.CEILING);
+            System.out.println("O Funcionario: " + funcionario.getNome() + " recebe " + SalaryFormater.FormatarSalario(salariosMin) + " salários mínimos"); 
+        });
+
+    
+    }
     
 
-
+    private void imprimirFuncionários(Funcionario funcionario) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        System.out.println(funcionario.getNome()+ " | "+  funcionario.getDataDeNascimento().format(formatter)+ 
+        " | " + SalaryFormater.FormatarSalario(funcionario.getSalario()) + " | " +  funcionario.getFuncao());
+    }
 }

@@ -27,9 +27,18 @@ public class Principal {
       funcionarioService.reajustarSalario(0.10);
       //agrupar funcioraios por funcao
       funcionarioService.agruparfuncionáriosPorFuncao();
-    //Imprimir todos os funcionários adrupados por funcao com todas suas informações
+      //Imprimir todos os funcionários adrupados por funcao com todas suas informações
       funcionarioService.mostrarfuncionáriosPorFuncao();
+      //Imprimir os funcionários que fazem aniversário no mês 10 e 12.
       int[] datasFiltro = {10,12};
       funcionarioService.mostrarFuncionariosPorMesDeAniversario(datasFiltro);
+      //Imprimir o funcionário com a maior idade, exibir os atributos: nome e idade.
+      funcionarioService.mostrarFuncionariosMaisvelho();
+      //Imprimir a lista de funcionários por ordem alfabética.
+      funcionarioService.mostrarfuncionáriosPorOrdemAlfabetica();
+      // Imprimir o total dos salários dos funcionários
+      funcionarioService.somarFolhaSalarial();
+      //Imprimir quantos salários mínimos ganha cada funcionário
+      funcionarioService.calcularSalariosMin();
   }
 }
