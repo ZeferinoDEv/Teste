@@ -1,14 +1,11 @@
 package presentation;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-
 import data.protocols.IFuncionarioRepository;
 import domain.Entities.Funcionario;
 import domain.useCases.CriarFuncionario;
@@ -45,22 +42,39 @@ public class FuncionarioService {
     }
     public void mostrarFuncionarios(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(Locale.getDefault());
-        DecimalFormatSymbols symbols = df.getDecimalFormatSymbols();
-        symbols.setDecimalSeparator(',');
-        symbols.setGroupingSeparator('.');
-        df.setDecimalFormatSymbols(symbols);
-
+        
         repositorioDeFuncionarios.pegarTodos().forEach((funcionario) -> { 
             System.out.println(funcionario.getNome()+ " | "+  funcionario.getDataDeNascimento().format(formatter)+ 
-            " | " + df.format(funcionario.getSalario()) + " | " +  funcionario.getFuncao()); 
+            " | " + SalaryFormater.FormatarSalario(funcionario.getSalario()) + " | " +  funcionario.getFuncao()); 
         });
+    }
+    public void mostrarFuncionariosPorMesDeAniversario(int[] dias){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        System.out.println("\n\n\n");
+        repositorioDeFuncionarios.buscarFuncionadoPorMes(dias).forEach((funcionario) -> { 
+            System.out.println(funcionario.getNome()+ " | "+  funcionario.getDataDeNascimento().format(formatter)+ 
+            " | " + SalaryFormater.FormatarSalario(funcionario.getSalario()) + " | " +  funcionario.getFuncao()); 
+        });
+    }
+    public void mostrarFuncionariosMaisvelho(){
+        System.out.println("\n\n\n");
+       
+        Funcionario maisVelho = repositorioDeFuncionarios.pegarTodos().getFirst();
+        
+        repositorioDeFuncionarios.pegarTodos().forEach((funcionario) -> { 
+            if (funcionario.getDataDeNascimento().isBefore(maisVelho.getDataDeNascimento())) {
+                maisVelho = funcionario;
+            }
+        });
+
+        System.out.println(maisVelho.getNome()+ " | "+  maisVelho.getDataDeNascimento().compareTo(LocalDate.now())); 
+
     }
 
     public void reajustarSalario(double porcentagem){
     
         repositorioDeFuncionarios.pegarTodos().forEach((funcionario) -> { 
-            double novoSalario = funcionario.getSalario().doubleValue() *  (1 + porcentagem);
+            double novoSalario = funcionario.getSalario().doubleValue() + funcionario.getSalario().doubleValue() * porcentagem;
             BigDecimal salarioAtualizado = BigDecimal.valueOf(novoSalario);
             funcionario.updateSalario(salarioAtualizado);
         });
@@ -86,16 +100,12 @@ public class FuncionarioService {
     public void mostrarfuncionáriosPorFuncao(){
     
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(Locale.getDefault());
-        DecimalFormatSymbols symbols = df.getDecimalFormatSymbols();
-        symbols.setDecimalSeparator(',');
-        symbols.setGroupingSeparator('.');
-        df.setDecimalFormatSymbols(symbols);
-
+        
+        System.out.println("\n\n\n");
         funcionariosMap.forEach((chave,lista) -> {
-            repositorioDeFuncionarios.pegarTodos().forEach((funcionario) -> { 
+           lista.forEach((funcionario) -> { 
                 System.out.println(funcionario.getNome()+ " | "+  funcionario.getDataDeNascimento().format(formatter)+ 
-            " | " + df.format(funcionario.getSalario()) + " | " +  funcionario.getFuncao()); 
+            " | " + SalaryFormater.FormatarSalario(funcionario.getSalario()) + " | " +  funcionario.getFuncao()); 
             });
         });
         

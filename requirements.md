@@ -16,8 +16,8 @@ Diante disso, você deve desenvolver um projeto java, com os seguintes requisito
 • informação de valor numérico deve ser exibida no formatado com separador de milhar como ponto e decimal como vírgula.
 3.4 – [x]Os funcionários receberam 10% de aumento de salário, atualizar a lista de funcionários com novo valor.
 3.5 – [x]Agrupar os funcionários por função em um MAP, sendo a chave a “função” e o valor a “lista de funcionários”.
-3.6 – Imprimir os funcionários, agrupados por função.
-3.8 – Imprimir os funcionários que fazem aniversário no mês 10 e 12.
+3.6 – [x]Imprimir os funcionários, agrupados por função.
+3.8 – [x] Imprimir os funcionários que fazem aniversário no mês 10 e 12.
 3.9 – Imprimir o funcionário com a maior idade, exibir os atributos: nome e idade.
 3.10 – Imprimir a lista de funcionários por ordem alfabética.
 3.11 – Imprimir o total dos salários dos funcionários.

@@ -1,7 +1,6 @@
 package data;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 
 import data.protocols.IFuncionarioRepository;
 import domain.Entities.Funcionario;
@@ -19,6 +18,19 @@ public class FuncionarioLocalRepository implements IFuncionarioRepository  {
      }
      public ArrayList<Funcionario> pegarTodos(){
       return listaFuncionarios;
+     }
+
+     public ArrayList<Funcionario> buscarFuncionadoPorMes(int[] dias){
+      ArrayList<Funcionario> funcionariosPorMes = new ArrayList<Funcionario>();
+
+         for (int i : dias) {
+         listaFuncionarios.forEach((funcionario) -> { 
+                if (funcionario.getDataDeNascimento().getMonth().getValue() == i ) {
+                  funcionariosPorMes.add(funcionario);
+                }
+             });
+        }
+        return funcionariosPorMes;
      }
    
 }

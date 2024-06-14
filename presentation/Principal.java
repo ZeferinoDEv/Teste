@@ -4,6 +4,7 @@ package presentation;
 import data.FuncionarioLocalRepository;
 
 public class Principal {
+
     public static void main(String[] args) {
       FuncionarioLocalRepository repositorioDeFuncionarios = new FuncionarioLocalRepository();
       FuncionarioService funcionarioService = new FuncionarioService(repositorioDeFuncionarios);
@@ -28,5 +29,7 @@ public class Principal {
       funcionarioService.agruparfuncionáriosPorFuncao();
     //Imprimir todos os funcionários adrupados por funcao com todas suas informações
       funcionarioService.mostrarfuncionáriosPorFuncao();
+      int[] datasFiltro = {10,12};
+      funcionarioService.mostrarFuncionariosPorMesDeAniversario(datasFiltro);
   }
 }
